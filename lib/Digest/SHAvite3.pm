@@ -6,7 +6,7 @@ use parent qw(Exporter Digest::base);
 
 use MIME::Base64 ();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION = eval $VERSION;
 
 eval {
@@ -24,33 +24,6 @@ our @EXPORT_OK = qw(
     shavite3_384 shavite3_384_hex shavite3_384_base64
     shavite3_512 shavite3_512_hex shavite3_512_base64
 );
-
-# TODO: convert to C.
-sub shavite3_224_hex  { unpack 'H*', shavite3_224(@_) }
-sub shavite3_256_hex  { unpack 'H*', shavite3_256(@_) }
-sub shavite3_384_hex  { unpack 'H*', shavite3_384(@_) }
-sub shavite3_512_hex  { unpack 'H*', shavite3_512(@_) }
-
-sub shavite3_224_base64 {
-    my $b64 = MIME::Base64::encode(shavite3_224(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub shavite3_256_base64 {
-    my $b64 = MIME::Base64::encode(shavite3_256(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub shavite3_384_base64 {
-    my $b64 = MIME::Base64::encode(shavite3_384(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub shavite3_512_base64 {
-    my $b64 = MIME::Base64::encode(shavite3_512(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
 
 sub add_bits {
     my ($self, $data, $bits) = @_;
@@ -77,8 +50,8 @@ Digest::SHAvite3 - Perl interface to the SHAvite-3 digest algorithm
     );
 
     $digest = shavite3_256($data);
-    $digest = shavite3_hex_256($data);
-    $digest = shavite3_base64_256($data);
+    $digest = shavite3_256_hex($data);
+    $digest = shavite3_256_base64($data);
 
     # Object-oriented interface
     use Digest::SHAvite3;
@@ -158,6 +131,8 @@ Returns the algorithm used by the object.
 =head1 SEE ALSO
 
 L<Digest>
+
+L<Task::Digest>
 
 L<http://www.cs.technion.ac.il/~orrd/SHAvite-3/>
 
